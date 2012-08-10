@@ -27,7 +27,7 @@ class StructuralElement():
     """
     Model for structural elements
     """
-   def __init__(self):
+    def __init__(self):
         return 'Structural Element'
 
 class Material():

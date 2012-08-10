@@ -1,47 +1,47 @@
-"""
-Model for general points
-"""
 class PointXd():
+    """
+    Model for general points
+    """
     def __init__(self):
-       return 'PointXd'
+         return 'PointXd'
 
-"""
-Model for 2D points
-"""
 class Point2d(PointXd):
-   x = 0.0
-   y = 0.0
-   def __init__(self):
+    """
+    Model for 2D points
+    """
+    x = 0.0
+    y = 0.0
+    def __init__(self):
         return 'Point2d'
 
-"""
-Model for 3D points
-"""
 class Point3d(PointXd):
+    """
+    Model for 3D points
+    """
     x = 0.0
     y = 0.0
     def __init__(self):
         return 'Point3d'
 
-"""
-Model for structural elements
-"""
 class StructuralElement():
-    def __init__(self):
+    """
+    Model for structural elements
+    """
+   def __init__(self):
         return 'Structural Element'
 
-"""
-Model for materials
-"""
 class Material():
+    """
+    Model for materials
+    """
     E = 0.0
     def __init__(self):
         return 'Material'
 
-"""
-Model for beam sections
-"""
 class BeamSection():
+    """
+    Model for beam sections
+    """
     Iyy = 0.0
     Izz = 0.0
     Iyz = 0.0
@@ -49,23 +49,23 @@ class BeamSection():
     def __init__(self):
         return 'Beam section'
 
-"""
-Model for 2D nodes
-"""
 class Node2d(Point2d,StructuralElement):
+    """
+    Model for 2D nodes
+    """
     def __init__(self):
         return 'Node2d'
 
-"""
-Model for 2D beams
-"""
 class Beam2d(StructuralElement):
+    """
+    Model for 2D beams
+    """
     def __init__(self):
         return 'Beam2d'
 
-"""
-Model for the structure
-"""
 class Structure():
+    """
+    Model for the structure
+    """
     def __init__(self):
-        return 'Structure'
+         return 'Structure'

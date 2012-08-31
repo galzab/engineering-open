@@ -12,10 +12,22 @@ Structural engineering
 - Finite Element analysis (2D)
 - Finite Element analysis (3D)
 
-Form Finding
+Form Finding (cable-nets and grid-shells)
 - Dynamic Relaxation (3D)
 - Force Density Method (3D)
+
+Meshing
+- Delaunay Triangulation
 
 Physics
 - Particle Spring Systems (2D)
 - Particle Spring Systems (3D)
+
+Contributors
+============
+
+Jeroen Coenders (@jeroencoenders)
+
+Licences
+========
+Engineering Open is released under ...

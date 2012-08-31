@@ -77,6 +77,16 @@ class Structure():
     """
     Model for the structure
     """
+    n = []
+    e = []
 
     def __init__(self):
-         return 'Structure'
+        return 'Structure'
+
+    def addNode(node):
+        """Adds a node to the structure"""
+        n.append(node)
+
+    def addElement(element):
+        """Adds an element to the structure"""
+        e.append(element)

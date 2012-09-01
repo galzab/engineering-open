@@ -1,23 +1,38 @@
 from geometry import Point2d
 
-class StructuralElement():
+class StructuralBaseClass(object):
+    """
+    Model for top level structural entity
+    """
+    name = 'None'
+
+    def __init__(self, name):
+        self.name = name
+
+class StructuralElement(StructuralBaseClass):
     """
     Model for structural elements
     """
-    def __unicode__(self):
-        return 'Structural Element'
 
-class Material():
+    def __unicode__(self):
+        return 'Structural Element %s' % self.name
+
+class Material(StructuralBaseClass):
     """
     Model for materials
     """
     E = 0.0
     G = 0.0
 
-    def __unicode__(self):
-        return 'Material'
+    def __init__(self, name, E, G):
+        super(Material, self).__init__(name)
+        self.E = E
+        self.G = G
 
-class BeamSection():
+    def __unicode__(self):
+        return 'Material %s' % self.name
+
+class BeamSection(StructuralBaseClass):
     """
     Model for beam sections
     """
@@ -30,25 +45,25 @@ class BeamSection():
     Izy = 0.0
 
     def __unicode__(self):
-        return 'Beam section'
+        return 'Beam section %s' % self.name
 
 class Node2d(Point2d,StructuralElement):
     """
     Model for 2D nodes
     """
     def __unicode__(self):
-        return 'Node2d'
+        return 'Node2d %s' % self.name
 
 class Beam2d(StructuralElement):
     """
     Model for 2D beams
     """
-    section = BeamSection()
+    section = ''
 
     def __unicode__(self):
-        return 'Beam2d'
+        return 'Beam2d %s' % self.name
 
-class Structure():
+class Structure(StructuralBaseClass):
     """
     Model for the structure
     """
@@ -56,7 +71,7 @@ class Structure():
     e = []
 
     def __unicode__(self):
-        return 'Structure'
+        return 'Structure %s' % self.name
 
     def addNode(node):
         """Adds a node to the structure"""

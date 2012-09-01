@@ -4,7 +4,7 @@ class StructuralElement():
     """
     Model for structural elements
     """
-    def __init__(self):
+    def __unicode__(self):
         return 'Structural Element'
 
 class Material():
@@ -14,7 +14,7 @@ class Material():
     E = 0.0
     G = 0.0
 
-    def __init__(self):
+    def __unicode__(self):
         return 'Material'
 
 class BeamSection():
@@ -29,14 +29,14 @@ class BeamSection():
     Iyz = 0.0
     Izy = 0.0
 
-    def __init__(self):
+    def __unicode__(self):
         return 'Beam section'
 
 class Node2d(Point2d,StructuralElement):
     """
     Model for 2D nodes
     """
-    def __init__(self):
+    def __unicode__(self):
         return 'Node2d'
 
 class Beam2d(StructuralElement):
@@ -45,7 +45,7 @@ class Beam2d(StructuralElement):
     """
     section = BeamSection()
 
-    def __init__(self):
+    def __unicode__(self):
         return 'Beam2d'
 
 class Structure():
@@ -55,7 +55,7 @@ class Structure():
     n = []
     e = []
 
-    def __init__(self):
+    def __unicode__(self):
         return 'Structure'
 
     def addNode(node):

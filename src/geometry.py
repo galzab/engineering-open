@@ -1,9 +1,21 @@
-class PointXd():
+class CoreClass():
+    """
+    Core class for all objects
+    """
+    def __unicode__(self):
+        """Unicode representation of the object"""
+        return 'CoreClass'
+
+    def __str__(self):
+        """Makes sure that __str__ returns the __unicode__"""
+        return self.__unicode__()
+
+class PointXd(CoreClass):
     """
     Model for general points in x dimensions
     """
-    def __init__(self):
-         return 'PointXd'
+    def __unicode__(self):
+        return 'PointXd'
 
 class Point2d(PointXd):
     """
@@ -11,7 +23,12 @@ class Point2d(PointXd):
     """
     x = 0.0
     y = 0.0
-    def __init__(self):
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __unicode__(self):
         return 'Point2d'
 
 class Point3d(PointXd):
@@ -22,7 +39,12 @@ class Point3d(PointXd):
     y = 0.0
     z = 0.0
 
-    def __init__(self):
+    def __init__(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+
+    def __unicode__(self):
         return 'Point3d'
 
 

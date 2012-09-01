@@ -1,6 +1,8 @@
+import sys
+sys.path.append("..")
+
 import unittest
 import geometry
-import sys
 
 class PointXdTests(unittest.TestCase):
     """Tests for PointXd"""

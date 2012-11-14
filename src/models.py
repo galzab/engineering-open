@@ -74,10 +74,14 @@ class Structure(StructuralBaseClass):
     def __unicode__(self):
         return 'Structure %s' % self.name
 
-    def addNode(node):
+    def addNode(self, node):
         """Adds a node to the structure"""
-        n.append(node)
+        self.n.append(node)
 
-    def addElement(element):
+    def addElement(self, element):
         """Adds an element to the structure"""
-        e.append(element)
+        self.e.append(element)
+
+    @property
+    def nodeCount(self):
+        return len(self.n)

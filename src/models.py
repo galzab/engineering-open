@@ -1,6 +1,7 @@
 from geometry import Point2d
+from geometry import CoreClass
 
-class StructuralBaseClass(object):
+class StructuralBaseClass(CoreClass):
     """
     Model for top level structural entity
     """

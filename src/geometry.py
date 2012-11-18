@@ -10,14 +10,14 @@ class CoreClass():
         """Makes sure that __str__ returns the __unicode__"""
         return self.__unicode__()
 
-class PointXd(CoreClass):
+class PointNd(CoreClass):
     """
-    Model for general points in x dimensions
+    Model for general points in n dimensions
     """
     def __unicode__(self):
         return 'PointXd'
 
-class Point2d(PointXd):
+class Point2d(PointNd):
     """
     Model for 2D points
     """
@@ -31,7 +31,7 @@ class Point2d(PointXd):
     def __unicode__(self):
         return 'Point2d'
 
-class Point3d(PointXd):
+class Point3d(PointNd):
     """
     Model for 3D points
     """

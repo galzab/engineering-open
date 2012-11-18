@@ -23,6 +23,13 @@ class Point2dTests(unittest.TestCase):
         self.assertEqual(point.x, 1.0)
         self.assertEqual(point.y, 2.0)
 
+    def test_coordinate_getter(self):
+        point=geometry.Point2d(1.0,2.0)
+        x=point.x
+        y=point.y
+        self.assertEqual(x, 1.0)
+        self.assertEqual(y, 2.0)
+
 class Point3dTests(unittest.TestCase):
     """Tests for Point3d"""
 

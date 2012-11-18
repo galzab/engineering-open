@@ -22,27 +22,27 @@ class Point2dTests(unittest.TestCase):
     """Tests for Point2d"""
 
     def test_unicode(self):
-        point=geometry.Point2d(0.0,0.0)
-        self.assertEqual(str(point), 'Point2d')
+        point1=geometry.Point2d(0.0,0.0)
+        self.assertEqual(str(point1), 'Point2d')
 
     def test_coordinates(self):
-        point=geometry.Point2d(1.0,2.0)
-        self.assertEqual(point.x, 1.0)
-        self.assertEqual(point.y, 2.0)
+        point2=geometry.Point2d(1.0,2.0)
+        self.assertEqual(point2.x, 1.0)
+        self.assertEqual(point2.y, 2.0)
 
     def test_coordinate_getter(self):
-        point=geometry.Point2d(1.0,2.0)
-        x=point.x
-        y=point.y
+        point3=geometry.Point2d(1.0,2.0)
+        x=point3.x
+        y=point3.y
         self.assertEqual(x, 1.0)
         self.assertEqual(y, 2.0)
 
     def test_coordinate_setter(self):
-        point=geometry.Point2d(1.0,2.0)
-        point.x=3.0
-        point.y=4.0
-        self.assertEqual(point.x, 3.0)
-        self.assertEqual(point.y, 4.0)
+        point4=geometry.Point2d(1.0,2.0)
+        point4.x=3.0
+        point4.y=4.0
+        self.assertEqual(point4.x, 3.0)
+        self.assertEqual(point4.y, 4.0)
 
 class Point3dTests(unittest.TestCase):
     """Tests for Point3d"""

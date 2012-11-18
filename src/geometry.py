@@ -14,8 +14,9 @@ class PointNd(CoreClass):
     """
     Model for general points in n dimensions
     """
+
     def __unicode__(self):
-        return 'PointXd'
+        return 'PointNd'
 
 class Point2d(PointNd):
     """

@@ -4,12 +4,12 @@ sys.path.append("..")
 import unittest
 import geometry
 
-class PointXdTests(unittest.TestCase):
+class PointNdTests(unittest.TestCase):
     """Tests for PointXd"""
 
     def test_unicode(self):
-        point=geometry.PointXd()
-        self.assertEqual(str(point), 'PointXd')
+        point=geometry.PointNd()
+        self.assertEqual(str(point), 'PointNd')
 
 class Point2dTests(unittest.TestCase):
     """Tests for Point2d"""

@@ -10,7 +10,15 @@ class CoreClass():
         """Makes sure that __str__ returns the __unicode__"""
         return self.__unicode__()
 
-class PointNd(CoreClass):
+class VectorNd(CoreClass):
+    """
+    Model for vector in n dimensions
+    """
+
+    def __unicode__(self):
+        return 'VectorNd'
+
+class PointNd(VectorNd):
     """
     Model for general points in n dimensions
     """

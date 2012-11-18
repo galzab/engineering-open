@@ -4,8 +4,15 @@ sys.path.append("..")
 import unittest
 import geometry
 
+class VectorNdTests(unittest.TestCase):
+    """Tests for VectorNd"""
+
+    def test_unicode(self):
+        vector=geometry.VectorNd()
+        self.assertEqual(str(vector), 'VectorNd')
+
 class PointNdTests(unittest.TestCase):
-    """Tests for PointXd"""
+    """Tests for PointNd"""
 
     def test_unicode(self):
         point=geometry.PointNd()

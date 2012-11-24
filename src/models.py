@@ -5,7 +5,6 @@ class StructuralBaseClass(CoreClass):
     """
     Model for top level structural entity
     """
-    name = 'None'
 
     def __init__(self, name):
         self.name = name
@@ -22,8 +21,6 @@ class Material(StructuralBaseClass):
     """
     Model for materials
     """
-    E = 0.0
-    G = 0.0
 
     def __init__(self, name, E, G):
         super(Material, self).__init__(name)
@@ -33,17 +30,19 @@ class Material(StructuralBaseClass):
     def __unicode__(self):
         return 'Material %s' % self.name
 
-class BeamSection(StructuralBaseClass):
+class BeamSection2d(StructuralBaseClass):
     """
     Model for beam sections
     """
-    A = 0.0
-    Sy = 0.0
-    Sz = 0.0
-    Iyy = 0.0
-    Izz = 0.0
-    Iyz = 0.0
-    Izy = 0.0
+
+    def __init__(self):
+        A = 0.0
+        Sy = 0.0
+        Sz = 0.0
+        Iyy = 0.0
+        Izz = 0.0
+        Iyz = 0.0
+        Izy = 0.0
 
     def __unicode__(self):
         return 'Beam section %s' % self.name
@@ -59,7 +58,6 @@ class Beam2d(StructuralElement):
     """
     Model for 2D beams
     """
-    section = ''
 
     def __unicode__(self):
         return 'Beam2d %s' % self.name
@@ -68,8 +66,11 @@ class Structure(StructuralBaseClass):
     """
     Model for the structure
     """
-    n = []
-    e = []
+
+    def __init__(self, name):
+        super(Structure, self).__init__(name)
+        self.n = []
+        self.e = []
 
     def __unicode__(self):
         return 'Structure %s' % self.name

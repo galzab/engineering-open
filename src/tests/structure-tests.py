@@ -2,8 +2,16 @@ import sys
 sys.path.append("..")
 
 import unittest
+from models import StructuralElement
 from models import Structure
 from models import Node2d
+
+class StructuralElementTests(unittest.TestCase):
+    """Tests for StructuralElement"""
+
+    def test_unicode(self):
+        element=StructuralElement('002')
+        self.assertEqual(str(element), 'Structural Element 002')
 
 class StructureTests(unittest.TestCase):
     """Tests for Structure"""

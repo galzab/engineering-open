@@ -30,6 +30,10 @@ class Material(StructuralBaseClass):
     def __unicode__(self):
         return 'Material %s' % self.name
 
+    @property
+    def shortname(self):
+        return self.name
+
 class BeamSection2d(StructuralBaseClass):
     """
     Model for beam sections

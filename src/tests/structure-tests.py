@@ -3,6 +3,7 @@ sys.path.append("..")
 
 import unittest
 from models import StructuralElement
+from models import Material
 from models import Structure
 from models import Node2d
 
@@ -12,6 +13,17 @@ class StructuralElementTests(unittest.TestCase):
     def test_unicode(self):
         element=StructuralElement('002')
         self.assertEqual(str(element), 'Structural Element 002')
+
+class MaterialTests(unittest.TestCase):
+    """Tests for Material"""
+
+    def test_unicode(self):
+        steel=Material('Steel', 1.0, 2.0)
+        self.assertEqual(str(steel), 'Material Steel')
+
+    def test_shortname(self):
+        steel=Material('Steel', 1.0, 2.0)
+        self.assertEqual(steel.shortname, 'Steel')
 
 class StructureTests(unittest.TestCase):
     """Tests for Structure"""

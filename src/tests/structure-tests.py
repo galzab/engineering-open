@@ -43,14 +43,15 @@ class BeamSection2dTests(unittest.TestCase):
 class Node2dTests(unittest.TestCase):
     """Tests for Node2d"""
 
+    def setUp(self):
+        self.node=Node2d('003', 1.0, 2.0)
+ 
     def test_unicode(self):
-        node=Node2d('003', 1.0, 2.0)
-        self.assertEqual(str(node), 'Node2d 003')
+        self.assertEqual(str(self.node), 'Node2d 003')
 
     def test_coordinates(self):
-        node=Node2d('004', 1.0, 2.0)
-        self.assertEqual(node.x, 1.0)
-        self.assertEqual(node.y, 2.0)
+        self.assertEqual(self.node.x, 1.0)
+        self.assertEqual(self.node.y, 2.0)
 
 class Beam2dTests(unittest.TestCase):
     """Tests for Beam2d"""

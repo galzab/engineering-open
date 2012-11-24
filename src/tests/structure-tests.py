@@ -19,13 +19,14 @@ class StructuralElementTests(unittest.TestCase):
 class MaterialTests(unittest.TestCase):
     """Tests for Material"""
 
+    def setUp(self):
+        self.steel=Material('Steel', 1.0, 2.0)
+ 
     def test_unicode(self):
-        steel=Material('Steel', 1.0, 2.0)
-        self.assertEqual(str(steel), 'Material Steel')
+        self.assertEqual(str(self.steel), 'Material Steel')
 
     def test_shortname(self):
-        steel=Material('Steel', 1.0, 2.0)
-        self.assertEqual(steel.shortname, 'Steel')
+        self.assertEqual(self.steel.shortname, 'Steel')
 
 class BeamSection2dTests(unittest.TestCase):
     """Tests for BeamSection2d"""

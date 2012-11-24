@@ -74,6 +74,12 @@ class Beam2d(StructuralElement):
     Model for 2D beams
     """
 
+    def __init__(self, name, startnode, endnode, beamsection):
+        super(Beam2d, self).__init__(name)
+        self.startnode = startnode
+        self.endnode = endnode
+        self.beamsection = beamsection
+
     def __unicode__(self):
         return 'Beam2d %s' % self.name
 

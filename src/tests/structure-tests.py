@@ -7,6 +7,7 @@ from models import Material
 from models import BeamSection2d
 from models import Structure
 from models import Node2d
+from models import Beam2d
 
 class StructuralElementTests(unittest.TestCase):
     """Tests for StructuralElement"""
@@ -38,6 +39,7 @@ class BeamSection2dTests(unittest.TestCase):
         self.assertEqual(he200a.shortname, 'HE200A')
 
 class Node2dTests(unittest.TestCase):
+    """Tests for Node2d"""
 
     def test_unicode(self):
         node=Node2d('003', 1.0, 2.0)
@@ -47,6 +49,25 @@ class Node2dTests(unittest.TestCase):
         node=Node2d('004', 1.0, 2.0)
         self.assertEqual(node.x, 1.0)
         self.assertEqual(node.y, 2.0)
+
+class Beam2dTests(unittest.TestCase):
+    """Tests for Beam2d"""
+
+    def setUp(self):
+        self.node1=Node2d('001',0.0,0.0)
+        self.node2=Node2d('002',10.0,0.0)
+        self.section=BeamSection2d('HE200A')
+        self.beam=Beam2d('005', self.node1, self.node2, self.section) 
+
+    def test_unicode(self):
+        self.assertEqual(str(self.beam), 'Beam2d 005')
+
+    def test_nodes(self):
+        self.assertEqual(self.beam.startnode, self.node1)
+        self.assertEqual(self.beam.endnode, self.node2)
+
+    def test_section(self):
+        self.assertEqual(self.beam.beamsection, self.section)       
 
 class StructureTests(unittest.TestCase):
     """Tests for Structure"""

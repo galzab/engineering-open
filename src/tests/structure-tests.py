@@ -40,9 +40,13 @@ class BeamSection2dTests(unittest.TestCase):
 class Node2dTests(unittest.TestCase):
 
     def test_unicode(self):
-        node=Node2d('003',1.0,2.0)
+        node=Node2d('003', 1.0, 2.0)
         self.assertEqual(str(node), 'Node2d 003')
 
+    def test_coordinates(self):
+        node=Node2d('004', 1.0, 2.0)
+        self.assertEqual(node.x, 1.0)
+        self.assertEqual(node.y, 2.0)
 
 class StructureTests(unittest.TestCase):
     """Tests for Structure"""

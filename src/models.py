@@ -13,6 +13,8 @@ class StructuralElement(StructuralBaseClass):
     """
     Model for structural elements
     """
+    def __init__(self, name):
+        super(StructuralElement, self).__init__(name)
 
     def __unicode__(self):
         return 'Structural Element %s' % self.name
@@ -60,6 +62,10 @@ class Node2d(Point2d,StructuralElement):
     """
     Model for 2D nodes
     """
+    def __init__(self, name, x, y):
+        super(Node2d, self).__init__(x, y)
+        super(StructuralElement, self).__init__(name)
+
     def __unicode__(self):
         return 'Node2d %s' % self.name
 

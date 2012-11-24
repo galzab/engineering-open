@@ -37,6 +37,13 @@ class BeamSection2dTests(unittest.TestCase):
         he200a=BeamSection2d('HE200A')
         self.assertEqual(he200a.shortname, 'HE200A')
 
+class Node2dTests(unittest.TestCase):
+
+    def test_unicode(self):
+        node=Node2d('003',1.0,2.0)
+        self.assertEqual(str(node), 'Node2d 003')
+
+
 class StructureTests(unittest.TestCase):
     """Tests for Structure"""
 
@@ -46,7 +53,7 @@ class StructureTests(unittest.TestCase):
 
     def test_add_node(self):
         structure=Structure('001')
-        node1=Node2d(0.0,0.0)
+        node1=Node2d('001',0.0,0.0)
         structure.addNode(node1)
         self.assertEqual(structure.nodeCount, 1)
 

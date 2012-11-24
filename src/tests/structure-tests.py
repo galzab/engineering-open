@@ -4,6 +4,7 @@ sys.path.append("..")
 import unittest
 from models import StructuralElement
 from models import Material
+from models import BeamSection2d
 from models import Structure
 from models import Node2d
 
@@ -24,6 +25,17 @@ class MaterialTests(unittest.TestCase):
     def test_shortname(self):
         steel=Material('Steel', 1.0, 2.0)
         self.assertEqual(steel.shortname, 'Steel')
+
+class BeamSection2dTests(unittest.TestCase):
+    """Tests for BeamSection2d"""
+
+    def test_unicode(self):
+        he200a=BeamSection2d('HE200A')
+        self.assertEqual(str(he200a), 'Beam section HE200A')
+
+    def test_shortname(self):
+        he200a=BeamSection2d('HE200A')
+        self.assertEqual(he200a.shortname, 'HE200A')
 
 class StructureTests(unittest.TestCase):
     """Tests for Structure"""

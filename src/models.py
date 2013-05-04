@@ -75,6 +75,10 @@ class Node2d(Point2d,StructuralElement):
     def __unicode__(self):
         return 'Node2d %s' % self.name
 
+    @property
+    def description(self):
+        return "%s (%s,%s)" % (str(self),self.x,self.y)
+
 class Beam2d(StructuralElement):
     """
     Model for 2D beams
@@ -88,6 +92,10 @@ class Beam2d(StructuralElement):
 
     def __unicode__(self):
         return 'Beam2d %s' % self.name
+
+    @property
+    def description(self):
+        return "%s (%s,%s) %s" % (str(self), str(self.startnode), str(self.endnode), str(self.beamsection))
 
     @property
     def dx(self):
@@ -113,6 +121,15 @@ class Structure(StructuralBaseClass):
 
     def __unicode__(self):
         return 'Structure %s' % self.name
+
+    @property
+    def description(self):
+        s=str(self)+"\n"
+        for node in self.n:
+          s+=node.description+"\n"
+        for element in self.e:
+          s+=element.description+"\n"
+        return s
 
     def addNode(self, node):
         """Adds a node to the structure"""

@@ -9,6 +9,7 @@ from models import Structure
 from models import Node2d
 from models import MassedNode2d
 from models import Beam2d
+from models import Element2d
 
 class StructuralElementTests(unittest.TestCase):
     """Tests for StructuralElement"""
@@ -90,6 +91,21 @@ class Node2dTests(unittest.TestCase):
     def test_coordinates(self):
         self.assertEqual(self.node.x, 1.0)
         self.assertEqual(self.node.y, 2.0)
+
+class Element2dTests(unittest.TestCase):
+    """Tests for Element2d"""
+    
+    def setUp(self):
+        self.node1=Node2d('001',0.0,0.0)
+        self.node2=Node2d('002',10.0,0.0)
+        self.element=Element2d('006', self.node1, self.node2)
+ 
+    def test_unicode(self):
+        self.assertEqual(str(self.element), 'Element2d 006')
+
+    def test_nodes(self):
+        self.assertEqual(self.element.startnode, self.node1)
+        self.assertEqual(self.element.endnode, self.node2)
 
 class Beam2dTests(unittest.TestCase):
     """Tests for Beam2d"""

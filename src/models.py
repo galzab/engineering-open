@@ -94,23 +94,17 @@ class MassedNode2d(Node2d):
     def description(self):
         return "%s (%s,%s) mass %s" % (str(self),self.x,self.y,self.mass)
 
-class Beam2d(StructuralElement):
+class Element2d(StructuralElement):
     """
-    Model for 2D beams
+    Model for 2D elements
     """
-
-    def __init__(self, name, startnode, endnode, beamsection):
-        super(Beam2d, self).__init__(name)
+    def __init__(self, name, startnode, endnode):
+        super(Element2d, self).__init__(name)
         self.startnode = startnode
         self.endnode = endnode
-        self.beamsection = beamsection
 
     def __unicode__(self):
-        return 'Beam2d %s' % self.name
-
-    @property
-    def description(self):
-        return "%s (%s,%s) %s" % (str(self), str(self.startnode), str(self.endnode), str(self.beamsection))
+        return 'Element2d %s' % self.name
 
     @property
     def dx(self):
@@ -123,6 +117,21 @@ class Beam2d(StructuralElement):
     @property
     def length(self):
         return math.sqrt(self.dx**2+self.dy**2)
+
+class Beam2d(Element2d):
+    """
+    Model for 2D beams
+    """
+    def __init__(self, name, startnode, endnode, beamsection):
+        super(Beam2d, self).__init__(name, startnode, endnode)
+        self.beamsection = beamsection
+
+    def __unicode__(self):
+        return 'Beam2d %s' % self.name
+
+    @property
+    def description(self):
+        return "%s (%s,%s) %s" % (str(self), str(self.startnode), str(self.endnode), str(self.beamsection))
 
 class Structure(StructuralBaseClass):
     """

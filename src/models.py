@@ -1,3 +1,4 @@
+import math
 from geometry import Point2d
 from geometry import CoreClass
 
@@ -41,15 +42,16 @@ class BeamSection2d(StructuralBaseClass):
     Model for beam sections
     """
 
-    def __init__(self, name):
+    def __init__(self, name, material):
         super(BeamSection2d, self).__init__(name)
-        A = 0.0
-        Sy = 0.0
-        Sz = 0.0
-        Iyy = 0.0
-        Izz = 0.0
-        Iyz = 0.0
-        Izy = 0.0
+        self.material=material
+        self.A = 0.0
+        self.Sy = 0.0
+        self.Sz = 0.0
+        self.Iyy = 10.0
+        self.Izz = 0.0
+        self.Iyz = 0.0
+        self.Izy = 0.0
 
     def __unicode__(self):
         return 'Beam section %s' % self.name
@@ -57,6 +59,10 @@ class BeamSection2d(StructuralBaseClass):
     @property
     def shortname(self):
         return self.name
+
+    @property
+    def EIyy(self):
+        return (self.material.E*self.Iyy)
 
 class Node2d(Point2d,StructuralElement):
     """
@@ -82,6 +88,18 @@ class Beam2d(StructuralElement):
 
     def __unicode__(self):
         return 'Beam2d %s' % self.name
+
+    @property
+    def dx(self):
+        return self.endnode.x-self.startnode.x
+ 
+    @property
+    def dy(self):
+        return self.endnode.y-self.startnode.y
+ 
+    @property
+    def length(self):
+        return math.sqrt(self.dx**2+self.dy**2)
 
 class Structure(StructuralBaseClass):
     """

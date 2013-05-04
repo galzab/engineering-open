@@ -32,13 +32,17 @@ class BeamSection2dTests(unittest.TestCase):
     """Tests for BeamSection2d"""
 
     def setUp(self):
-        self.he200a=BeamSection2d('HE200A') 
+        self.steel=Material('Steel', 1.0, 1.0)
+        self.he200a=BeamSection2d('HE200A', self.steel) 
 
     def test_unicode(self):
         self.assertEqual(str(self.he200a), 'Beam section HE200A')
 
     def test_shortname(self):
         self.assertEqual(self.he200a.shortname, 'HE200A')
+
+    def test_EIyy(self):
+        self.assertEqual(self.he200a.EIyy,10.0)
 
 class Node2dTests(unittest.TestCase):
     """Tests for Node2d"""
@@ -59,7 +63,8 @@ class Beam2dTests(unittest.TestCase):
     def setUp(self):
         self.node1=Node2d('001',0.0,0.0)
         self.node2=Node2d('002',10.0,0.0)
-        self.section=BeamSection2d('HE200A')
+        self.steel=Material('Steel',1.0, 1.0)
+        self.section=BeamSection2d('HE200A', self.steel)
         self.beam=Beam2d('005', self.node1, self.node2, self.section) 
 
     def test_unicode(self):

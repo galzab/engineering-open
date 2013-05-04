@@ -133,6 +133,21 @@ class Beam2d(Element2d):
     def description(self):
         return "%s (%s,%s) %s" % (str(self), str(self.startnode), str(self.endnode), str(self.beamsection))
 
+class Spring2d(Element2d):
+    """
+    Model for 2D springs
+    """
+    def __init__(self, name, startnode, endnode, stiffness):
+        super(Spring2d, self).__init__(name, startnode, endnode)
+        self.stiffness=stiffness
+
+    def __unicode__(self):
+        return 'Spring2d %s' % self.name
+
+    @property
+    def description(self):
+        return "%s (%s,%s) %s" % (str(self), str(self.startnode), str(self.endnode), str(self.stiffness))
+
 class Structure(StructuralBaseClass):
     """
     Model for the structure

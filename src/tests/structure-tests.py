@@ -10,6 +10,7 @@ from models import Node2d
 from models import MassedNode2d
 from models import Beam2d
 from models import Element2d
+from models import Spring2d
 
 class StructuralElementTests(unittest.TestCase):
     """Tests for StructuralElement"""
@@ -126,6 +127,24 @@ class Beam2dTests(unittest.TestCase):
 
     def test_section(self):
         self.assertEqual(self.beam.beamsection, self.section)       
+
+class Spring2dTests(unittest.TestCase):
+    """Tests for Spring2d"""
+
+    def setUp(self):
+        self.node1=Node2d('001',0.0,0.0)
+        self.node2=Node2d('002',10.0,0.0)
+        self.spring=Spring2d('005', self.node1, self.node2, 11.0) 
+
+    def test_unicode(self):
+        self.assertEqual(str(self.spring), 'Spring2d 005')
+
+    def test_nodes(self):
+        self.assertEqual(self.spring.startnode, self.node1)
+        self.assertEqual(self.spring.endnode, self.node2)
+
+    def test_stiffness(self):
+        self.assertEqual(self.spring.stiffness, 11.0)       
 
 class StructureTests(unittest.TestCase):
     """Tests for Structure"""

@@ -7,6 +7,7 @@ from models import Material
 from models import BeamSection2d
 from models import Structure
 from models import Node2d
+from models import MassedNode2d
 from models import Beam2d
 
 class StructuralElementTests(unittest.TestCase):
@@ -15,6 +16,39 @@ class StructuralElementTests(unittest.TestCase):
     def test_unicode(self):
         element=StructuralElement('002')
         self.assertEqual(str(element), 'Structural Element 002')
+
+class Node2dTests(unittest.TestCase):
+    """Tests for Node2d"""
+
+    def setUp(self):
+        self.node=Node2d('001', 1.0, 2.0)
+
+    def test_unicode(self):
+        self.assertEqual(str(self.node), 'Node2d 001')
+
+    def test_description(self):
+        self.assertEqual(self.node.description, 'Node 2d 001 (1.0,2.0)')
+
+    def test_x(self):
+        self.assertEqual(self.node.x, 1.0)
+
+    def test_y(self):
+        self.assertEqual(self.node.y, 2.0)
+
+class MassedNode2dTests(unittest.TestCase):
+    """Tests for MassedNode2d"""
+
+    def setUp(self):
+        self.node=MassedNode2d('001', 1.0, 2.0, 3.0)
+
+    def test_unicode(self):
+        self.assertEqual(str(self.node), 'MassedNode2d 001')
+
+    def test_description(self):
+        self.assertEqual(self.node.description, 'MassedNode2d 001 (1.0,2.0) mass 3.0')
+
+    def test_mass(self):
+        self.assertEqual(self.node.mass, 3.0)
 
 class MaterialTests(unittest.TestCase):
     """Tests for Material"""

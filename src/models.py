@@ -79,6 +79,21 @@ class Node2d(Point2d,StructuralElement):
     def description(self):
         return "%s (%s,%s)" % (str(self),self.x,self.y)
 
+class MassedNode2d(Node2d):
+    """
+    Model for 2D nodes with a mass
+    """
+    def __init__(self, name, x, y, mass):
+        super(MassedNode2d, self).__init__(name,x, y)
+        self.mass=mass
+
+    def __unicode__(self):
+        return 'MassedNode2d %s' % self.name
+
+    @property
+    def description(self):
+        return "%s (%s,%s) mass %s" % (str(self),self.x,self.y,self.mass)
+
 class Beam2d(StructuralElement):
     """
     Model for 2D beams

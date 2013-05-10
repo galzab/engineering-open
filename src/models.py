@@ -83,16 +83,18 @@ class MassedNode2d(Node2d):
     """
     Model for 2D nodes with a mass
     """
-    def __init__(self, name, x, y, mass):
+    def __init__(self, name, x, y, mass, cx=False, cy=False):
         super(MassedNode2d, self).__init__(name,x, y)
         self.mass=mass
+        self.cx=cx
+        self.cy=cy
 
     def __unicode__(self):
         return 'MassedNode2d %s' % self.name
 
     @property
     def description(self):
-        return "%s (%s,%s) mass %s" % (str(self),self.x,self.y,self.mass)
+        return "%s (%s,%s) mass %s constraints (%s,%s)" % (str(self),self.x,self.y,self.mass,self.cx,self.cy)
 
 class Element2d(StructuralElement):
     """
@@ -137,9 +139,10 @@ class Spring2d(Element2d):
     """
     Model for 2D springs
     """
-    def __init__(self, name, startnode, endnode, stiffness):
+    def __init__(self, name, startnode, endnode, stiffness, original_length):
         super(Spring2d, self).__init__(name, startnode, endnode)
         self.stiffness=stiffness
+        self.original_length=original_length
 
     def __unicode__(self):
         return 'Spring2d %s' % self.name
@@ -181,3 +184,7 @@ class Structure(StructuralBaseClass):
     @property
     def nodeCount(self):
         return len(self.n)
+
+    @property
+    def elementCount(self):
+        return len(self.e)

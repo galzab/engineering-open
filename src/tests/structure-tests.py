@@ -1,3 +1,21 @@
+"""
+engineering-open: open-source tooling for engineering
+Copyright (C) 2013 Jeroen Coenders
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>
+"""
+
 import sys
 sys.path.append("..")
 
@@ -47,7 +65,7 @@ class MassedNode2dTests(unittest.TestCase):
         self.assertEqual(str(self.node), 'MassedNode2d 001')
 
     def test_description(self):
-        self.assertEqual(self.node.description, 'MassedNode2d 001 (1.0,2.0) mass 3.0')
+        self.assertEqual(self.node.description, 'MassedNode2d 001 (1.0,2.0) mass 3.0 constraints (False,False)')
 
     def test_mass(self):
         self.assertEqual(self.node.mass, 3.0)
@@ -134,7 +152,7 @@ class Spring2dTests(unittest.TestCase):
     def setUp(self):
         self.node1=Node2d('001',0.0,0.0)
         self.node2=Node2d('002',10.0,0.0)
-        self.spring=Spring2d('005', self.node1, self.node2, 11.0) 
+        self.spring=Spring2d('005', self.node1, self.node2, 11.0, 9.0) 
 
     def test_unicode(self):
         self.assertEqual(str(self.spring), 'Spring2d 005')

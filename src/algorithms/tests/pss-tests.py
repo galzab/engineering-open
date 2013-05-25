@@ -109,9 +109,10 @@ class ParticleSpringSystemAlgorithmTests(unittest.TestCase):
             self.assertEqual(node.ay, ay)
  
     def test_particleSpringSystemAlgorithm(self):
-        self.assertEqual(start_pss(self.structure,1.0,0.01,10000),True)           
+        self.assertEqual(start_pss(self.structure,1.0,0.0001,1000000),True)           
 
 """Set up the test suite"""
-current_module = sys.modules[__name__]
-suite = unittest.TestLoader().loadTestsFromModule(current_module)
-unittest.TextTestRunner(verbosity=2).run(suite)
+if __name__ == '__main__':
+    current_module = sys.modules[__name__]
+    suite = unittest.TestLoader().loadTestsFromModule(current_module)
+    unittest.TextTestRunner(verbosity=2).run(suite)

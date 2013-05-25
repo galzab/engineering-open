@@ -89,6 +89,7 @@ class Point3dTests(unittest.TestCase):
         self.assertEqual(point.z, 6.0)
 
 """Set up the test suite"""
-current_module = sys.modules[__name__]
-suite = unittest.TestLoader().loadTestsFromModule(current_module)
-unittest.TextTestRunner(verbosity=2).run(suite)
+if __name__ == '__main__':
+    current_module = sys.modules[__name__]
+    suite = unittest.TestLoader().loadTestsFromModule(current_module)
+    unittest.TextTestRunner(verbosity=2).run(suite)

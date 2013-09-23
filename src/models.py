@@ -224,6 +224,16 @@ class Structure(StructuralBaseClass):
     def addNode(self, node):
         """Adds a node to the structure"""
         self.n.append(node)
+        
+    def findNode(self, node):
+        """Finds a node in the structure"""
+        foundNodeNr=None
+        for i in len(n):
+            testnode=n[i]
+            if (testnode==node):
+                foundNodeNr=i
+                break
+        return foundNodeNr
 
     def addElement(self, element):
         """Adds an element to the structure"""

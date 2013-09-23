@@ -41,5 +41,47 @@ class Fem2d(CoreClass):
         nn=self.structure.nodeCount
         nm=self.structure.elementCount
         nl=self.structure.loadCount
+        nn3=nn*3
+        nm3=nn3-1
+        
+        # Build the initial force and displacement vector per node
+        fx=[]
+        fy=[]
+        ft=[]
+        ux=[]
+        uy=[]
+        ut=[]
+        for i in range(nn):
+            fx.append(0.0)
+            fy.append(0.0)
+            ft.append(0.0)
+            ux.append(0.0)
+            uy.append(0.0)
+            ut.append(0.0)
+            
+        # Build the force and vector vector
+        f=[]
+        u=[]
+        s=[[]]
+        for i in range(nn3):
+            f.append(0.0)
+            u.append(0.0)
+            s.append([])
+            for j in range(nn3):
+                s[i].append(0.0)
+        
+        # Build local stiffness matrix        
+        t=[]
+        sl=[[]]
+        for i in range(6):
+            t.append(0.0)
+            sl.append([])
+            for j in range(6):
+                sl[i].append(0.0)
+                
+        # Set the loads on the force vector
+        for load in self.structure.l:
+            #nnr=load.node
+        
         return True
 

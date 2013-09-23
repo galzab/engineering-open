@@ -200,6 +200,7 @@ class Structure(StructuralBaseClass):
         super(Structure, self).__init__(name)
         self.n = []
         self.e = []
+        self.l = []
 
     def __unicode__(self):
         return 'Structure %s' % self.name
@@ -211,6 +212,8 @@ class Structure(StructuralBaseClass):
           s+=node.description+"\n"
         for element in self.e:
           s+=element.description+"\n"
+        #for load in self.l:
+        #    s+=load.description+"\n"
         return s
 
     def addNode(self, node):
@@ -220,6 +223,10 @@ class Structure(StructuralBaseClass):
     def addElement(self, element):
         """Adds an element to the structure"""
         self.e.append(element)
+    
+    def addLoad(self, load):
+        """Adds a load to the structure"""
+        self.l.append(load)
 
     @property
     def nodeCount(self):
@@ -228,3 +235,7 @@ class Structure(StructuralBaseClass):
     @property
     def elementCount(self):
         return len(self.e)
+    
+    @property
+    def loadCount(self):
+        return len(self.l)

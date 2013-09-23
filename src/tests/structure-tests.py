@@ -188,16 +188,16 @@ class StructureTests(unittest.TestCase):
 
     def setUp(self):
         self.structure=Structure('001')
+        self.node1=Node2d('001',0.0,0.0)
 
     def test_unicode(self):
         self.assertEqual(str(self.structure), 'Structure 001')
 
     def test_add_node(self):
-        self.node1=Node2d('001',0.0,0.0)
         self.structure.addNode(self.node1)
         self.assertEqual(self.structure.nodeCount, 1)
     
-    def test_add_load(self):
+    def test_add_load(self):        
         self.load=Load2d('001',self.node1, 1.0, 2.0)
         self.structure.addLoad(self.load)
         self.assertEqual(self.structure.loadCount, 1)

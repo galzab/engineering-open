@@ -25,10 +25,14 @@ class Fem2d(CoreClass):
     """ 
     FEM2D algorithm
     """
+    
+    def __init__(self, structure):
+        self.structure=structure
 
     def __unicode__(self):
         return "FEM2D algorithm"
 
     def analyse(self):
+        print "Running FEM2D analysis for %s" % self.structure
         return True
 

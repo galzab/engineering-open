@@ -184,6 +184,10 @@ class Load2d(StructuralBaseClass):
         return 'Load2d %s (%s,%s) on node %s' % (self.name, self.lx, self.ly, self.node.name)
         
     @property
+    def description(self):
+        return str(self)
+        
+    @property
     def X(self):
         return self.lx
     
@@ -209,11 +213,11 @@ class Structure(StructuralBaseClass):
     def description(self):
         s=str(self)+"\n"
         for node in self.n:
-          s+=node.description+"\n"
+            s+=node.description+"\n"
         for element in self.e:
-          s+=element.description+"\n"
-        #for load in self.l:
-        #    s+=load.description+"\n"
+            s+=element.description+"\n"
+        for load in self.l:
+            s+=load.description+"\n"
         return s
 
     def addNode(self, node):

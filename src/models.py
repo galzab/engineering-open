@@ -228,8 +228,8 @@ class Structure(StructuralBaseClass):
     def findNode(self, node):
         """Finds a node in the structure"""
         foundNodeNr=None
-        for i in len(n):
-            testnode=n[i]
+        for i in range(len(self.n)):
+            testnode=self.n[i]
             if (testnode==node):
                 foundNodeNr=i
                 break

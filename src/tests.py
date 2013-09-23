@@ -25,7 +25,9 @@ import unittest
 tests = ['geometry-tests',
          'structure-tests',
          'pss-tests',
-         'mechanics-tests']
+         'mechanics-tests',
+         'fem2d-tests'
+        ]
 
 suite = unittest.TestLoader().loadTestsFromNames(tests)
 unittest.TextTestRunner(verbosity=2).run(suite)

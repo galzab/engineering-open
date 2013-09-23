@@ -16,19 +16,31 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>
 """
 
-# Finite Element Method 2D algorithm
+import sys
+sys.path.append(".")
+sys.path.append("algorithms")
+sys.path.append("..")
+sys.path.append("../..")
 
-from models import CoreClass
-import geometry
+import unittest
+import fem2d
+import models
+import math
 
-class Fem2d(CoreClass):
-    """ 
-    FEM2D algorithm
-    """
+from models import Structure
 
-    def __unicode__(self):
-        return "FEM2D algorithm"
+class FEM2dAlgorithmTests(unittest.TestCase):
+    """Tests for FEM2d"""
 
-    def analyse(self):
-        return True
-
+    def setUp(self):
+        #set up the structure
+        self.structure=Structure("001")
+        
+    def test_nodeCount(self):
+        self.assertEqual(self.structure.nodeCount,2)
+    
+"""Set up the test suite"""
+if __name__ == '__main__':
+    current_module = sys.modules[__name__]
+    suite = unittest.TestLoader().loadTestsFromModule(current_module)
+    unittest.TextTestRunner(verbosity=2).run(suite)

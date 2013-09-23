@@ -179,6 +179,9 @@ class Load2d(StructuralBaseClass):
         self.node = node
         self.lx = lx
         self.ly = ly
+        
+    def __unicode__(self):
+        return 'Load2d %s (%s,%s) on node %s' % (self.name, self.lx, self.ly, self.node.name)
 
 class Structure(StructuralBaseClass):
     """

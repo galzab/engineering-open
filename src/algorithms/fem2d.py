@@ -80,8 +80,11 @@ class Fem2d(CoreClass):
                 sl[i].append(0.0)
                 
         # Set the loads on the force vector
-        #for load in self.structure.l:
-            #nnr=load.node
+        for load in self.structure.l:
+            nnr=self.structure.findNode(load.node)
+            fx[nnr]=load.X
+            fy[nnr]=load.Y
+            ft[nnr]=0.0
         
         return True
 

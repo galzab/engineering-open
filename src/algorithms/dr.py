@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 """
 
 # Dynamic Relaxation algorithm
+# Used algorithm explained on http://en.wikipedia.org/wiki/Dynamic_relaxation
 import math
 
 

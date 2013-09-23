@@ -112,6 +112,14 @@ class Node2dTests(unittest.TestCase):
     def test_coordinates(self):
         self.assertEqual(self.node.x, 1.0)
         self.assertEqual(self.node.y, 2.0)
+    
+    def test_constraints(self):
+        self.assertEqual(self.node.cx, False)
+        self.assertEqual(self.node.cy, False)
+        
+        node1=Node2d('004',1.0,2.0,True,True)
+        self.assertEqual(node1.cx, True)
+        self.assertEqual(node1.cy, True)
 
 class Element2dTests(unittest.TestCase):
     """Tests for Element2d"""

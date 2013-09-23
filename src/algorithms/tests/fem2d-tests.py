@@ -51,6 +51,8 @@ class FEM2dAlgorithmTests(unittest.TestCase):
             self.structure.addElement(Beam2d("%s" % str(i+1), self.structure.n[i], self.structure.n[i+1], self.section))
         for i in range(10):
             self.structure.addLoad(Load2d("%s" % str(i+1), self.structure.n[i], 0.0, 1.0))
+        self.structure.cx=True
+        self.structure.cy=True
         
     def test_nodeCount(self):
         self.assertEqual(self.structure.nodeCount,10)

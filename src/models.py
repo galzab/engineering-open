@@ -86,9 +86,11 @@ class Node2d(Point2d,StructuralElement):
     """
     Model for 2D nodes
     """
-    def __init__(self, name, x, y):
+    def __init__(self, name, x, y, cx=False, cy=False):
         super(Node2d, self).__init__(x, y)
         super(StructuralElement, self).__init__(name)
+        self.cx=cx
+        self.cy=cy
 
     def __unicode__(self):
         return 'Node2d %s' % self.name
@@ -104,8 +106,6 @@ class MassedNode2d(Node2d):
     def __init__(self, name, x, y, mass, cx=False, cy=False):
         super(MassedNode2d, self).__init__(name,x, y)
         self.mass=mass
-        self.cx=cx
-        self.cy=cy
 
     def __unicode__(self):
         return 'MassedNode2d %s' % self.name

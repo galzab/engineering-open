@@ -29,6 +29,7 @@ import math
 
 from models import Structure
 from models import Node2d
+from models import Load2d
 from fem2d import Fem2d
 
 class FEM2dAlgorithmTests(unittest.TestCase):
@@ -41,9 +42,14 @@ class FEM2dAlgorithmTests(unittest.TestCase):
         self.structure=Structure("001")
         for i in range(10):
             self.structure.addNode(Node2d("%s" % str(i+1),(self.spacing*i),0.0))
+        for i in range(10):
+            self.structure.addLoad(Load2d("%s" % str(i+1), self.structure.n[i], 0.0, 1.0))
         
     def test_nodeCount(self):
         self.assertEqual(self.structure.nodeCount,10)
+        
+    def test_loadCount(self):
+        self.assertEqual(self.structure.loadCount,10)
         
     def test_analysis(self):
         fem2d=Fem2d(self.structure)

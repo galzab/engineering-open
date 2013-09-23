@@ -32,10 +32,14 @@ class Fem2d(CoreClass):
     def __unicode__(self):
         return "FEM2D algorithm"
 
-    def analyse(self):
-        print "Running FEM2D analysis for %s" % self.structure
+    def analyse(self,verbose=2):
+        if (verbose>1):
+            print "\n* Running FEM2D analysis for %s" % self.structure
+            print "* Inputs"
+            print self.structure.description
         
         nn=self.structure.nodeCount
         nm=self.structure.elementCount
+        nl=self.structure.loadCount
         return True
 

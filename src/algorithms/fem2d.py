@@ -34,5 +34,8 @@ class Fem2d(CoreClass):
 
     def analyse(self):
         print "Running FEM2D analysis for %s" % self.structure
+        
+        nn=self.structure.nodeCount
+        nm=self.structure.elementCount
         return True
 

@@ -30,6 +30,7 @@ from models import MassedNode2d
 from models import Beam2d
 from models import Element2d
 from models import Spring2d
+from models import Load2d
 
 class StructuralElementTests(unittest.TestCase):
     """Tests for StructuralElement"""

@@ -171,7 +171,7 @@ class Spring2d(Element2d):
         
 class Load2d(StructuralBaseClass):
     """
-    Model for a two-dimensional load
+    Model for a two-dimensional node load
     """
     
     def __init__(self, name, node, lx, ly):

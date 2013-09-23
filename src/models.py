@@ -168,6 +168,17 @@ class Spring2d(Element2d):
     @property
     def description(self):
         return "%s (%s,%s) %s" % (str(self), str(self.startnode), str(self.endnode), str(self.stiffness))
+        
+class Load2d(StructuralBaseClass):
+    """
+    Model for a two-dimensional load
+    """
+    
+    def __init__(self, name, node, lx, ly):
+        super(Load2d, self).__init__(name)
+        self.node = node
+        self.lx = lx
+        self.ly = ly
 
 class Structure(StructuralBaseClass):
     """

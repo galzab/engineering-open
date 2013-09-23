@@ -28,13 +28,18 @@ import models
 import math
 
 from models import Structure
+from models import Node2d
 
 class FEM2dAlgorithmTests(unittest.TestCase):
     """Tests for FEM2d"""
 
     def setUp(self):
+        self.spacing=1.0
+        
         #set up the structure
         self.structure=Structure("001")
+        for i in range(2):
+            self.structure.addNode(Node2d("%s" % str(i+1),(self.spacing*i),0.0))
         
     def test_nodeCount(self):
         self.assertEqual(self.structure.nodeCount,2)

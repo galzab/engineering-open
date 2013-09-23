@@ -214,6 +214,18 @@ class StructureTests(unittest.TestCase):
         self.load=Load2d('001',self.node1, 1.0, 2.0)
         self.structure.addLoad(self.load)
         self.assertEqual(self.structure.loadCount, 1)
+        
+    def test_findNode(self):
+        saveNode=None
+        for i in range(10):
+            node=Node2d("%s" % str(i+1),i,0.0)
+            if (i==3):
+                saveNode=node
+            self.structure.addNode(node)
+        self.assertEqual(self.structure.nodeCount,10)
+        nnr=self.structure.findNode(saveNode)
+        self.assertEqual(nnr,3)
+        
 
 """Set up the test suite"""
 if __name__ == '__main__':

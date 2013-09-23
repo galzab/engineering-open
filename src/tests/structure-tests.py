@@ -182,6 +182,9 @@ class Load2dTests(unittest.TestCase):
     def test_loadcomponents(self):
         self.assertEqual(self.load.X, 1.0)
         self.assertEqual(self.load.Y, 2.0)
+        
+    def test_description(self):
+        self.assertEqual(self.load.description, "Load2d 001 (1.0,2.0) on node 001")
 
 class StructureTests(unittest.TestCase):
     """Tests for Structure"""

@@ -38,11 +38,11 @@ class FEM2dAlgorithmTests(unittest.TestCase):
         
         #set up the structure
         self.structure=Structure("001")
-        for i in range(2):
+        for i in range(10):
             self.structure.addNode(Node2d("%s" % str(i+1),(self.spacing*i),0.0))
         
     def test_nodeCount(self):
-        self.assertEqual(self.structure.nodeCount,2)
+        self.assertEqual(self.structure.nodeCount,10)
     
 """Set up the test suite"""
 if __name__ == '__main__':

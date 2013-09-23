@@ -1,3 +1,22 @@
+"""
+engineering-open: open-source tooling for engineering
+Copyright (C) 2013 Jeroen Coenders
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>
+"""
+
+import math
 from geometry import Point2d
 from geometry import CoreClass
 
@@ -41,15 +60,16 @@ class BeamSection2d(StructuralBaseClass):
     Model for beam sections
     """
 
-    def __init__(self, name):
+    def __init__(self, name, material):
         super(BeamSection2d, self).__init__(name)
-        A = 0.0
-        Sy = 0.0
-        Sz = 0.0
-        Iyy = 0.0
-        Izz = 0.0
-        Iyz = 0.0
-        Izy = 0.0
+        self.material=material
+        self.A = 0.0
+        self.Sy = 0.0
+        self.Sz = 0.0
+        self.Iyy = 10.0
+        self.Izz = 0.0
+        self.Iyz = 0.0
+        self.Izy = 0.0
 
     def __unicode__(self):
         return 'Beam section %s' % self.name
@@ -57,6 +77,10 @@ class BeamSection2d(StructuralBaseClass):
     @property
     def shortname(self):
         return self.name
+
+    @property
+    def EIyy(self):
+        return (self.material.E*self.Iyy)
 
 class Node2d(Point2d,StructuralElement):
     """
@@ -69,19 +93,81 @@ class Node2d(Point2d,StructuralElement):
     def __unicode__(self):
         return 'Node2d %s' % self.name
 
-class Beam2d(StructuralElement):
+    @property
+    def description(self):
+        return "%s (%s,%s)" % (str(self),self.x,self.y)
+
+class MassedNode2d(Node2d):
+    """
+    Model for 2D nodes with a mass
+    """
+    def __init__(self, name, x, y, mass, cx=False, cy=False):
+        super(MassedNode2d, self).__init__(name,x, y)
+        self.mass=mass
+        self.cx=cx
+        self.cy=cy
+
+    def __unicode__(self):
+        return 'MassedNode2d %s' % self.name
+
+    @property
+    def description(self):
+        return "%s (%s,%s) mass %s constraints (%s,%s)" % (str(self),self.x,self.y,self.mass,self.cx,self.cy)
+
+class Element2d(StructuralElement):
+    """
+    Model for 2D elements
+    """
+    def __init__(self, name, startnode, endnode):
+        super(Element2d, self).__init__(name)
+        self.startnode = startnode
+        self.endnode = endnode
+
+    def __unicode__(self):
+        return 'Element2d %s' % self.name
+
+    @property
+    def dx(self):
+        return self.endnode.x-self.startnode.x
+ 
+    @property
+    def dy(self):
+        return self.endnode.y-self.startnode.y
+ 
+    @property
+    def length(self):
+        return math.sqrt(self.dx**2+self.dy**2)
+
+class Beam2d(Element2d):
     """
     Model for 2D beams
     """
-
     def __init__(self, name, startnode, endnode, beamsection):
-        super(Beam2d, self).__init__(name)
-        self.startnode = startnode
-        self.endnode = endnode
+        super(Beam2d, self).__init__(name, startnode, endnode)
         self.beamsection = beamsection
 
     def __unicode__(self):
         return 'Beam2d %s' % self.name
+
+    @property
+    def description(self):
+        return "%s (%s,%s) %s" % (str(self), str(self.startnode), str(self.endnode), str(self.beamsection))
+
+class Spring2d(Element2d):
+    """
+    Model for 2D springs
+    """
+    def __init__(self, name, startnode, endnode, stiffness, original_length):
+        super(Spring2d, self).__init__(name, startnode, endnode)
+        self.stiffness=stiffness
+        self.original_length=original_length
+
+    def __unicode__(self):
+        return 'Spring2d %s' % self.name
+
+    @property
+    def description(self):
+        return "%s (%s,%s) %s" % (str(self), str(self.startnode), str(self.endnode), str(self.stiffness))
 
 class Structure(StructuralBaseClass):
     """
@@ -96,6 +182,15 @@ class Structure(StructuralBaseClass):
     def __unicode__(self):
         return 'Structure %s' % self.name
 
+    @property
+    def description(self):
+        s=str(self)+"\n"
+        for node in self.n:
+          s+=node.description+"\n"
+        for element in self.e:
+          s+=element.description+"\n"
+        return s
+
     def addNode(self, node):
         """Adds a node to the structure"""
         self.n.append(node)
@@ -107,3 +202,7 @@ class Structure(StructuralBaseClass):
     @property
     def nodeCount(self):
         return len(self.n)
+
+    @property
+    def elementCount(self):
+        return len(self.e)

@@ -16,19 +16,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>
 """
 
-#Finite Element Method 2D algorithm
+import sys
+sys.path.append("..")
 
-from models import CoreClass
-import geometry
-
-class Fem2d(CoreClass):
-    """ 
-    FEM2D algorithm
-    """
-
-    def __unicode__(self):
-        return "FEM2D algorithm"
-
-    def analyse(self):
-        return True
-
+def simply_supported_beam_calculation(beam,q):
+    """Produces results for a simply supported beam"""
+    M=(1/8)*q*(beam.length**2)
+    V=(1/2)*q*(beam.length)
+    d=(5/384)*q*((beam.length**4)/beam.beamsection.EIyy)
+    return (M,V,d)

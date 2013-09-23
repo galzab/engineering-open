@@ -15,20 +15,17 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>
 """
+import sys
+sys.path.append("tests")
+sys.path.append("algorithms/tests")
+sys.path.append("calculations/tests")
 
-#Finite Element Method 2D algorithm
+import unittest
 
-from models import CoreClass
-import geometry
+tests = ['geometry-tests',
+         'structure-tests',
+         'pss-tests',
+         'mechanics-tests']
 
-class Fem2d(CoreClass):
-    """ 
-    FEM2D algorithm
-    """
-
-    def __unicode__(self):
-        return "FEM2D algorithm"
-
-    def analyse(self):
-        return True
-
+suite = unittest.TestLoader().loadTestsFromNames(tests)
+unittest.TextTestRunner(verbosity=2).run(suite)

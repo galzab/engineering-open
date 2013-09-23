@@ -1,4 +1,6 @@
-"""
+License notice
+==============
+
 engineering-open: open-source tooling for engineering
 Copyright (C) 2013 Jeroen Coenders
 
@@ -14,21 +16,3 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>
-"""
-
-#Finite Element Method 2D algorithm
-
-from models import CoreClass
-import geometry
-
-class Fem2d(CoreClass):
-    """ 
-    FEM2D algorithm
-    """
-
-    def __unicode__(self):
-        return "FEM2D algorithm"
-
-    def analyse(self):
-        return True
-

@@ -164,7 +164,19 @@ class Spring2dTests(unittest.TestCase):
         self.assertEqual(self.spring.endnode, self.node2)
 
     def test_stiffness(self):
-        self.assertEqual(self.spring.stiffness, 11.0)       
+        self.assertEqual(self.spring.stiffness, 11.0) 
+        
+class Load2dTests(unittest.TestCase):
+    """Tests for Load2d"""
+    
+    def setUp(self):
+        self.node=Node2d('001',0.0,0.0)
+        self.load=Load2d('001',self.node,1.0,2.0)
+        
+    def test_unicode(self):
+        self.assertEqual(str(self.load), "Load2d 001")
+
+      
 
 class StructureTests(unittest.TestCase):
     """Tests for Structure"""

@@ -28,7 +28,10 @@ import models
 import math
 
 from models import Structure
+from models import Material
 from models import Node2d
+from models import BeamSection2d
+from models import Beam2d
 from models import Load2d
 from fem2d import Fem2d
 
@@ -37,11 +40,15 @@ class FEM2dAlgorithmTests(unittest.TestCase):
 
     def setUp(self):
         self.spacing=1.0
+        self.steel=Material("steel",2.1e5,0.0)
+        self.section=BeamSection2d("HE200A",self.steel)
         
         #set up the structure
         self.structure=Structure("001")
         for i in range(10):
             self.structure.addNode(Node2d("%s" % str(i+1),(self.spacing*i),0.0))
+        for i in range(9):
+            self.structure.addElement(Beam2d("%s" % str(i+1), self.structure.n[i], self.structure.n[i+1], self.section))
         for i in range(10):
             self.structure.addLoad(Load2d("%s" % str(i+1), self.structure.n[i], 0.0, 1.0))
         

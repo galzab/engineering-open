@@ -29,6 +29,7 @@ import math
 
 from models import Structure
 from models import Node2d
+from fem2d import Fem2d
 
 class FEM2dAlgorithmTests(unittest.TestCase):
     """Tests for FEM2d"""
@@ -43,6 +44,10 @@ class FEM2dAlgorithmTests(unittest.TestCase):
         
     def test_nodeCount(self):
         self.assertEqual(self.structure.nodeCount,10)
+        
+    def test_analysis(self):
+        fem2d=Fem2d(self.structure)
+        self.assertEqual(fem2d.analyse(),True)
     
 """Set up the test suite"""
 if __name__ == '__main__':

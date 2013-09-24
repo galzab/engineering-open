@@ -85,6 +85,10 @@ class BeamSection2d(StructuralBaseClass):
     @property
     def EIyy(self):
         return (self.material.E*self.Iyy)
+    
+    @property
+    def EIzz(self):
+        return (self.material.E*self.Izz)
 
 class Node2d(Point2d,StructuralElement):
     """

@@ -89,7 +89,8 @@ class BeamSection2dTests(unittest.TestCase):
 
     def setUp(self):
         self.steel=Material('Steel', 1.0, 1.0)
-        self.he200a=BeamSection2d('HE200A', self.steel, A=2.0, Iyy=10.0) 
+        #Future- It would be nice to put some real beamsection numbers in here
+        self.he200a=BeamSection2d('HE200A', self.steel, A=2.0, Iyy=10.0, Izz=3.0) 
 
     def test_unicode(self):
         self.assertEqual(str(self.he200a), 'Beam section HE200A')
@@ -99,6 +100,9 @@ class BeamSection2dTests(unittest.TestCase):
 
     def test_EIyy(self):
         self.assertEqual(self.he200a.EIyy,10.0)
+        
+    def test_EIzz(self):
+        self.assertEqual(self.he200a.EIzz,3.0)
         
     def test_EA(self):
         self.assertEqual(self.he200a.EA,2.0)

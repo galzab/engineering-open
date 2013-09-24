@@ -139,14 +139,14 @@ class Fem2d(CoreClass):
                     mm1 = ns[m]
                     s[kk1][mm1]= s[kk1][mm1]+sl[k][m]
             
-            #Construction of the global stiffness vector
-            for i in range(nn):
-                kx = 3 * i
-                ky = 3 * i + 1
-                kt = 3 * i + 2
-                f[kx] = fx[i]
-                f[ky] = fy[i]
-                f[kt] = ft[i]
+        #Construction of the global stiffness vector
+        for i in range(nn):
+            kx = 3 * i
+            ky = 3 * i + 1
+            kt = 3 * i + 2
+            f[kx] = fx[i]
+            f[ky] = fy[i]
+            f[kt] = ft[i]
                         
             
         return True

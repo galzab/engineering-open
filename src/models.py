@@ -60,16 +60,16 @@ class BeamSection2d(StructuralBaseClass):
     Model for beam sections
     """
 
-    def __init__(self, name, material):
+    def __init__(self, name, material, A=0.0, Sy=0.0, Sz=0.0, Iyy=0.0, Izz=0.0, Iyz=0.0, Izy=0.0):
         super(BeamSection2d, self).__init__(name)
         self.material=material
-        self.A = 0.0
-        self.Sy = 0.0
-        self.Sz = 0.0
-        self.Iyy = 10.0
-        self.Izz = 0.0
-        self.Iyz = 0.0
-        self.Izy = 0.0
+        self.A = A
+        self.Sy = Sy
+        self.Sz = Sz
+        self.Iyy = Iyy
+        self.Izz = Izz
+        self.Iyz = Iyz
+        self.Izy = Izy
 
     def __unicode__(self):
         return 'Beam section %s' % self.name

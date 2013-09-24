@@ -36,9 +36,9 @@ class SimplySupportedBeamTests(unittest.TestCase):
 
     def setUp(self):
         node1=Node2d('001',0.0,0.0)
-	node2=Node2d('001',1.0,0.0)
+        node2=Node2d('001',1.0,0.0)
         steel=Material('Steel', 1.0, 1.0)
-        section=BeamSection2d('HE200A', steel)
+        section=BeamSection2d('HE200A', steel, Iyy=10.0)
         self.beam=Beam2d('beam001', node1, node2, section)
 
     def test_beam_length(self):

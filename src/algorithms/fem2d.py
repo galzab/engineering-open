@@ -86,6 +86,15 @@ class Fem2d(CoreClass):
             fx[nnr]=load.X
             fy[nnr]=load.Y
             ft[nnr]=load.T
+            
+        # Construct the stiffness matrix
+        for i in range(nm):
+            member=self.structure.e[i]
+            kk=self.structure.findNode(member.endnode)
+            ll=self.structure.findNode(member.startnode)
+            dx=member.dx
+            dy=member.dy
+            a=member.length
         
         return True
 

@@ -77,6 +77,10 @@ class BeamSection2d(StructuralBaseClass):
     @property
     def shortname(self):
         return self.name
+        
+    @property
+    def EA(self):
+        return (self.material.E*self.A)
 
     @property
     def EIyy(self):

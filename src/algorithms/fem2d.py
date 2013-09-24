@@ -44,7 +44,7 @@ class Fem2d(CoreClass):
         nn3=nn*3
         nm3=nn3-1
         
-        # Build the initial force and displacement vector per node
+        # Initialise the initial force and displacement vector per node
         # (Future- This could also done directly on the main force and displacement vectors)
         fx=[]
         fy=[]
@@ -60,7 +60,7 @@ class Fem2d(CoreClass):
             uy.append(0.0)
             ut.append(0.0)
             
-        # Build the force and displacement vector
+        # Initialise the global force and displacement vector and the global stiffness matrix
         f=[]
         u=[]
         s=[[]]
@@ -71,7 +71,7 @@ class Fem2d(CoreClass):
             for j in range(nn3):
                 s[i].append(0.0)
         
-        # Build local stiffness matrix        
+        # Initialise local stiffness matrix        
         t=[]
         sl=[[]]
         for i in range(6):
@@ -91,18 +91,54 @@ class Fem2d(CoreClass):
         for i in range(nm):
             member=self.structure.e[i]
             kk=self.structure.findNode(member.endnode)
-            ll=self.structure.findNode(member.startnode)
+            mm=self.structure.findNode(member.startnode)
             dx=member.dx
             dz=member.dy
-            a=member.length
-            EI=member.beamsection.EIzz
-            b = member.beamsection.EA / a**3;
-            t[0] = dx;
-            t[1] = dz;
-            t[2] = 0;
-            t[3] = -dx;
-            t[4] = -dz;
-            t[5] = 0;
-        
+
+            #Produce the local stiffness matrix
+            #Future- This can probably be simplified
+            b = member.beamsection.EA / member.length**3
+            t[0] = dx
+            t[1] = dz
+            t[2] = 0.0
+            t[3] = -dx
+            t[4] = -dz
+            t[5] = 0.0
+            for k in range(6):
+                for m in range(6):
+                    sl[k][m]=b * t[k] * t[m]
+
+            b = (12 * member.beamsection.EIzz) / (member.length**5)
+            t[0] = dz
+            t[1] = -dx
+            t[2] = -member.length**2 / 2
+            t[3] = -dz
+            t[4] = dx
+            t[5] = -member.length**2 / 2
+            for k in range(6):
+                for m in range(6):
+                    sl[k][m]=s[k][m]+b*t[k]*t[m]
+            
+            b = member.beamsection.EIzz / member.length;
+            sl[2][2] = sl[2][2] + b
+            sl[2][5] = sl[2][5] - b
+            sl[5][2] = sl[5][2] - b
+            sl[5][5] = sl[5][5] + b
+            
+            #Add the local stiffness matrix to the global stiffness matrix
+            ns=[]
+            ns.append(3 * mm)
+            ns.append(3 * mm + 1)
+            ns.append(3 * mm + 2)
+            ns.append(3 * kk)
+            ns.append(3 * kk + 1)
+            ns.append(3 * kk + 2)
+            for k in range(6):
+                kk1 = ns[k]
+                for m in range(6):
+                    mm1 = ns[m]
+                    s[kk1][mm1]= s[kk1][mm1]+sl[k][m]
+            
+            
         return True
 

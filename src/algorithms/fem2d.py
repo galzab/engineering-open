@@ -83,9 +83,9 @@ class Fem2d(CoreClass):
         # Set the loads on the force vector
         for load in self.structure.l:
             nnr=self.structure.findNode(load.node)
-            fx[nnr]=load.X
-            fy[nnr]=load.Y
-            ft[nnr]=load.T
+            fx[nnr]+=load.X
+            fy[nnr]+=load.Y
+            ft[nnr]+=load.T
             
         # Construct the stiffness matrix
         for i in range(nm):
@@ -139,6 +139,15 @@ class Fem2d(CoreClass):
                     mm1 = ns[m]
                     s[kk1][mm1]= s[kk1][mm1]+sl[k][m]
             
+            #Construction of the global stiffness vector
+            for i in range(nn):
+                kx = 3 * i
+                ky = 3 * i + 1
+                kt = 3 * i + 2
+                f[kx] = fx[i]
+                f[ky] = fy[i]
+                f[kt] = ft[i]
+                        
             
         return True
 

@@ -85,7 +85,7 @@ class Fem2d(CoreClass):
             nnr=self.structure.findNode(load.node)
             fx[nnr]=load.X
             fy[nnr]=load.Y
-            ft[nnr]=0.0
+            ft[nnr]=load.T
         
         return True
 

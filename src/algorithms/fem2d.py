@@ -45,6 +45,7 @@ class Fem2d(CoreClass):
         nm3=nn3-1
         
         # Build the initial force and displacement vector per node
+        # (Future- This could also done directly on the main force and displacement vectors)
         fx=[]
         fy=[]
         ft=[]
@@ -59,7 +60,7 @@ class Fem2d(CoreClass):
             uy.append(0.0)
             ut.append(0.0)
             
-        # Build the force and vector vector
+        # Build the force and displacement vector
         f=[]
         u=[]
         s=[[]]

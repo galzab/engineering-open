@@ -175,14 +175,15 @@ class Load2d(StructuralBaseClass):
     Model for a two-dimensional node load
     """
     
-    def __init__(self, name, node, lx, ly):
+    def __init__(self, name, node, lx=0.0, ly=0.0, lt=0.0):
         super(Load2d, self).__init__(name)
         self.node = node
         self.lx = lx
         self.ly = ly
+        self.lt = lt
         
     def __unicode__(self):
-        return 'Load2d %s (%s,%s) on node %s' % (self.name, self.lx, self.ly, self.node.name)
+        return 'Load2d %s (%s,%s,%s) on node %s' % (self.name, self.lx, self.ly, self.lt, self.node.name)
         
     @property
     def description(self):
@@ -195,6 +196,10 @@ class Load2d(StructuralBaseClass):
     @property
     def Y(self):
         return self.ly
+        
+    @property
+    def T(self):
+        return self.lt
 
 class Structure(StructuralBaseClass):
     """

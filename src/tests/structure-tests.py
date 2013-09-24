@@ -181,10 +181,10 @@ class Load2dTests(unittest.TestCase):
     
     def setUp(self):
         self.node=Node2d('001',0.0,0.0)
-        self.load=Load2d('001',self.node,1.0,2.0)
+        self.load=Load2d('001',self.node,1.0,2.0,3.0)
         
     def test_unicode(self):
-        self.assertEqual(str(self.load), "Load2d 001 (1.0,2.0) on node 001")  
+        self.assertEqual(str(self.load), "Load2d 001 (1.0,2.0,3.0) on node 001")  
         
     def test_node(self):
         self.assertEqual(self.load.node, self.node)
@@ -192,9 +192,10 @@ class Load2dTests(unittest.TestCase):
     def test_loadcomponents(self):
         self.assertEqual(self.load.X, 1.0)
         self.assertEqual(self.load.Y, 2.0)
+        self.assertEqual(self.load.T, 3.0)
         
     def test_description(self):
-        self.assertEqual(self.load.description, "Load2d 001 (1.0,2.0) on node 001")
+        self.assertEqual(self.load.description, "Load2d 001 (1.0,2.0,3.0) on node 001")
 
 class StructureTests(unittest.TestCase):
     """Tests for Structure"""

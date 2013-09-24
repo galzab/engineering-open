@@ -93,8 +93,16 @@ class Fem2d(CoreClass):
             kk=self.structure.findNode(member.endnode)
             ll=self.structure.findNode(member.startnode)
             dx=member.dx
-            dy=member.dy
+            dz=member.dy
             a=member.length
+            EI=member.beamsection.EIzz
+            b = member.beamsection.EA / a**3;
+            t[0] = dx;
+            t[1] = dz;
+            t[2] = 0;
+            t[3] = -dx;
+            t[4] = -dz;
+            t[5] = 0;
         
         return True
 

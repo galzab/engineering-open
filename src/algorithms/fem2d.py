@@ -31,12 +31,47 @@ class Fem2d(CoreClass):
 
     def __unicode__(self):
         return "FEM2D algorithm"
+        
+    def print_system(self,nn3,f,s,u):
+        #Show the system of equations
+        print "nn3=%s" % str(nn3)
+        error=1e-15
+        for i in xrange(nn3):
+            if (i % 3==0):
+                st = "x["
+            elif (i%3==1):
+                st = "y["
+            else:
+                st = "t["
+            if (abs(f[i])<error):
+                st+="0="
+            elif (abs(f[i])-1.0<error):
+                st+="1="
+            else:
+                st+="*="
+            for j in xrange(nn3):
+            #    st+="%s-" % str(s[i][j])
+                if (abs(s[i][j])<error):
+                    st+="0"
+                elif (abs(s[i][j])-1.0<error):
+                    st+="1"
+                else:
+                    st+="*"
+            if (abs(u[i])<error):
+                st+=".0"
+            elif (abs(u[i])-1.0<error):
+                st+=".1"
+            else:
+                st+=".*"                    
+            st += "]"
+            print st
 
     def analyse(self,verbose=2):
         if (verbose>1):
             print "\n* Running FEM2D analysis for %s" % self.structure
             print "* Inputs"
             print self.structure.description
+            print "* Setting up system of equations"
         
         nn=self.structure.nodeCount
         nm=self.structure.elementCount
@@ -52,7 +87,7 @@ class Fem2d(CoreClass):
         ux=[]
         uy=[]
         ut=[]
-        for i in range(nn):
+        for i in xrange(nn):
             fx.append(0.0)
             fy.append(0.0)
             ft.append(0.0)
@@ -64,7 +99,7 @@ class Fem2d(CoreClass):
         f=[]
         u=[]
         s=[[]]
-        for i in range(nn3):
+        for i in xrange(nn3):
             f.append(0.0)
             u.append(0.0)
             s.append([])
@@ -74,10 +109,10 @@ class Fem2d(CoreClass):
         # Initialise local stiffness matrix        
         t=[]
         sl=[[]]
-        for i in range(6):
+        for i in xrange(6):
             t.append(0.0)
             sl.append([])
-            for j in range(6):
+            for j in xrange(6):
                 sl[i].append(0.0)
                 
         # Set the loads on the force vector
@@ -88,7 +123,7 @@ class Fem2d(CoreClass):
             ft[nnr]+=load.T
             
         # Construct the global stiffness matrix
-        for i in range(nm):
+        for i in xrange(nm):
             member=self.structure.e[i]
             kk=self.structure.findNode(member.endnode)
             mm=self.structure.findNode(member.startnode)
@@ -104,9 +139,9 @@ class Fem2d(CoreClass):
             t[3] = -dx
             t[4] = -dz
             t[5] = 0.0
-            for k in range(6):
-                for m in range(6):
-                    sl[k][m]=b * t[k] * t[m]
+            for k in xrange(6):
+                for m in xrange(6):
+                    sl[k][m]= b * t[k] * t[m]
 
             b = (12 * member.beamsection.EIzz) / (member.length**5)
             t[0] = dz
@@ -115,16 +150,16 @@ class Fem2d(CoreClass):
             t[3] = -dz
             t[4] = dx
             t[5] = -member.length**2 / 2
-            for k in range(6):
-                for m in range(6):
-                    sl[k][m]=s[k][m]+b*t[k]*t[m]
+            for k in xrange(6):
+                for m in xrange(6):
+                    sl[k][m]= sl[k][m] + b * t[k] * t[m]
             
             b = member.beamsection.EIzz / member.length;
             sl[2][2] = sl[2][2] + b
             sl[2][5] = sl[2][5] - b
             sl[5][2] = sl[5][2] - b
             sl[5][5] = sl[5][5] + b
-            
+                        
             #Add the local stiffness matrix to the global stiffness matrix
             ns=[]
             ns.append(3 * mm)
@@ -133,21 +168,116 @@ class Fem2d(CoreClass):
             ns.append(3 * kk)
             ns.append(3 * kk + 1)
             ns.append(3 * kk + 2)
-            for k in range(6):
+            for k in xrange(6):
                 kk1 = ns[k]
-                for m in range(6):
+                for m in xrange(6):
                     mm1 = ns[m]
                     s[kk1][mm1]= s[kk1][mm1]+sl[k][m]
             
         #Construction of the global force vector
-        for i in range(nn):
+        for i in xrange(nn):
             kx = 3 * i
             ky = 3 * i + 1
             kt = 3 * i + 2
             f[kx] = fx[i]
             f[ky] = fy[i]
             f[kt] = ft[i]
-                        
+        
+        #Calculation of predescribed displacements
+        for i in xrange(nn):
+            node = self.structure.n[i]
+            if (node.cx):
+                #print "node %s has x restraint" % str(i)
+                ux[i]=0.0
+                ii = 3 * i
+                for j in xrange(nn3):
+                    s[ii][j] = 0.0
+                s[ii][ii] = 1.0
+                f[ii] = ux[i]
+            if (node.cy):
+                #print "node %s has y restraint" % str(i)
+                uy[i]=0.0
+                ii = 3 * i + 1
+                for j in xrange(nn3):
+                    s[ii][j] = 0.0
+                s[ii][ii] = 1.0
+                f[ii] = uy[i]
+            if (node.cr):
+                #print "node %s has t restraint" % str(i)
+                ut[i]=0.0
+                ii = 3 * i + 2
+                for j in xrange(nn3):
+                    s[ii][j] = 0.0
+                s[ii][ii] = 1.0
+                f[ii] = ut[i]
+        
+        #Solution of system of equations using Gauss-Jordan elimination
+        if (verbose>1):
+            print "* Solving system of equations"        
+        for i in xrange(nn3):
+            a = 1 / s[i][i]
+            f[i] = a * f[i]
+            for j in xrange(nn3):
+                s[i][j] = a * s[i][j]
+            ii = i + 1
+            for j in xrange(ii,nn3):
+                b = s[j][i]
+                f[j]=f[j] - b * f[i]
+                for k in xrange(i, nn3):
+                    s[j][k] = s[j][k] - b * s[i][k]
+        u[nn3-1] = f[nn3-1] / s[nn3-1][nn3-1]
+        
+        for i in xrange(nm3-1):
+            m = nn3 - i -1
+            u[m] = f[m]
+            mm = m + 1
+            for j in xrange(mm,nn3):
+                u[m] = u[m] - s[m][j] *u[j]    
+        
+        if (verbose>1):
+            print "* Post-processing"
+            
+        # Displacements
+        for i in xrange(nn):
+            ux[i]=u[i*3]
+            uy[i]=u[i*3+1]
+            ut[i]=u[i*3+2]
+            
+        #Internal forces
+        fm=[]
+        t1=[]
+        t2=[]
+        v=[]
+        for i in xrange(nm):
+            member=self.structure.e[i]
+            k = self.structure.findNode(member.endnode)
+            m = self.structure.findNode(member.startnode)
+            b = member.beamsection.EA / member.length**2
+            c = member.dx * (ux[k] - ux[m]) + member.dy * (uy[k] - uy[m])
+            fm.append(b * c)
+            c = member.dx * (uy[k] - uy[m]) - member.dy * (ux[k] - ux[m])
+            b = c / member.length**2
+            c = 2 * member.beamsection.EIzz / member.length
+            t1.append(c * (2 * ut[m] + ut[k] -3 * b))
+            t2.append(-c * (2 * ut[k] + ut[m] - 3 * b))
+            v.append ((t2[i]-t1[i])/ member.length)
+        
+        #Calculation of stresses
+        sigma1=[]
+        sigma2=[]
+        for i in xrange(nm):
+            member=self.structure.e[i]
+            sigma1.append((t1[i] / member.beamsection.Wy)+(fm[i] / member.beamsection.A))
+            sigma2.append((t2[i] / member.beamsection.Wy)+(fm[i] / member.beamsection.A))
+        
+        if (verbose>1):
+            #Future- This could use some better formatting
+            print "* Outputs"
+            print "Nodal results"
+            for i in xrange(nn):
+                print "%s: %s %s %s %s %s %s" % (str(i),str(fx[i]),str(fy[i]),str(ft[i]),str(ux[i]),str(uy[i]),str(ut[i]))
+            print "Member results"
+            for i in xrange(nm):
+                print "%s: %s %s %s %s %s %s" % (str(i),str(fm[i]),str(t1[i]),str(t2[i]),str(v[i]),str(sigma1[i]),str(sigma2[i]))
             
         return True
-

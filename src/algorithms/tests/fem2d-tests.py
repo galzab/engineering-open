@@ -41,7 +41,7 @@ class FEM2dAlgorithmTests(unittest.TestCase):
     def setUp(self):
         self.spacing=1.0
         self.steel=Material("steel",2.1e5,0.0)
-        self.section=BeamSection2d("HE200A",self.steel)
+        self.section=BeamSection2d("HE200A",self.steel, A=1.0, Izz=1.0, Wy=1.0)
         
         #set up the structure
         self.structure=Structure("001")
@@ -50,15 +50,21 @@ class FEM2dAlgorithmTests(unittest.TestCase):
         for i in range(9):
             self.structure.addElement(Beam2d("%s" % str(i+1), self.structure.n[i], self.structure.n[i+1], self.section))
         for i in range(10):
-            self.structure.addLoad(Load2d("%s" % str(i+1), self.structure.n[i], 0.0, 1.0))
-        self.structure.cx=True
-        self.structure.cy=True
+            self.structure.addLoad(Load2d("%s" % str(i+1), self.structure.n[i], 0.0, 2.0))
+        self.structure.n[0].cx=True
+        self.structure.n[0].cy=True
+        self.structure.n[0].cr=True
         
     def test_nodeCount(self):
         self.assertEqual(self.structure.nodeCount,10)
         
     def test_loadCount(self):
         self.assertEqual(self.structure.loadCount,10)
+        
+    def test_supportConditions(self):
+        self.assertEqual(self.structure.n[0].cx, True)
+        self.assertEqual(self.structure.n[0].cy, True)
+        self.assertEqual(self.structure.n[0].cr, True)
         
     def test_analysis(self):
         fem2d=Fem2d(self.structure)

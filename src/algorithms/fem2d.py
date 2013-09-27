@@ -81,16 +81,16 @@ class Fem2d(CoreClass):
         
         # Initialise the initial force and displacement vector per node
         # (Future- This could also done directly on the main force and displacement vectors)
-        fx=[]
-        fy=[]
-        ft=[]
+        #fx=[]
+        #fy=[]
+        #ft=[]
         ux=[]
         uy=[]
         ut=[]
         for i in xrange(nn):
-            fx.append(0.0)
-            fy.append(0.0)
-            ft.append(0.0)
+        #    fx.append(0.0)
+        #    fy.append(0.0)
+        #    ft.append(0.0)
             ux.append(0.0)
             uy.append(0.0)
             ut.append(0.0)
@@ -118,37 +118,38 @@ class Fem2d(CoreClass):
         # Set the loads on the force vector
         for load in self.structure.l:
             nnr=self.structure.findNode(load.node)
-            fx[nnr]+=load.X
-            fy[nnr]+=load.Y
-            ft[nnr]+=load.T
+            #fx[nnr]+=load.X
+            #fy[nnr]+=load.Y
+            #ft[nnr]+=load.T
+            f[nnr*3] += load.X
+            f[nnr*3+1] += load.Y
+            f[nnr*3+2] += load.T
             
         # Construct the global stiffness matrix
         for i in xrange(nm):
             member=self.structure.e[i]
             kk=self.structure.findNode(member.endnode)
             mm=self.structure.findNode(member.startnode)
-            dx=member.dx
-            dz=member.dy
 
             #Produce the local stiffness matrix
             #Future- This can probably be simplified
             b = member.beamsection.EA / member.length**3
-            t[0] = dx
-            t[1] = dz
+            t[0] = member.dx
+            t[1] = member.dy
             t[2] = 0.0
-            t[3] = -dx
-            t[4] = -dz
+            t[3] = -member.dx
+            t[4] = -member.dy
             t[5] = 0.0
             for k in xrange(6):
                 for m in xrange(6):
                     sl[k][m]= b * t[k] * t[m]
 
             b = (12 * member.beamsection.EIzz) / (member.length**5)
-            t[0] = dz
-            t[1] = -dx
+            t[0] = member.dy
+            t[1] = -member.dx
             t[2] = -member.length**2 / 2
-            t[3] = -dz
-            t[4] = dx
+            t[3] = -member.dy
+            t[4] = member.dx
             t[5] = -member.length**2 / 2
             for k in xrange(6):
                 for m in xrange(6):
@@ -175,13 +176,13 @@ class Fem2d(CoreClass):
                     s[kk1][mm1]= s[kk1][mm1]+sl[k][m]
             
         #Construction of the global force vector
-        for i in xrange(nn):
-            kx = 3 * i
-            ky = 3 * i + 1
-            kt = 3 * i + 2
-            f[kx] = fx[i]
-            f[ky] = fy[i]
-            f[kt] = ft[i]
+        #for i in xrange(nn):
+        #    kx = 3 * i
+        #    ky = 3 * i + 1
+        #    kt = 3 * i + 2
+        #    f[kx] = fx[i]
+        #    f[ky] = fy[i]
+        #    f[kt] = ft[i]
         
         #Calculation of predescribed displacements
         for i in xrange(nn):
@@ -237,13 +238,13 @@ class Fem2d(CoreClass):
         if (verbose>1):
             print "* Post-processing"
             
-        # Displacements
+        # Post-processing displacements
         for i in xrange(nn):
             ux[i]=u[i*3]
             uy[i]=u[i*3+1]
             ut[i]=u[i*3+2]
             
-        #Internal forces
+        #Post-processing internal forces
         fm=[]
         t1=[]
         t2=[]
@@ -262,7 +263,7 @@ class Fem2d(CoreClass):
             t2.append(-c * (2 * ut[k] + ut[m] - 3 * b))
             v.append ((t2[i]-t1[i])/ member.length)
         
-        #Calculation of stresses
+        #Post-processing: calculation of stresses
         sigma1=[]
         sigma2=[]
         for i in xrange(nm):
@@ -270,12 +271,13 @@ class Fem2d(CoreClass):
             sigma1.append((t1[i] / member.beamsection.Wy)+(fm[i] / member.beamsection.A))
             sigma2.append((t2[i] / member.beamsection.Wy)+(fm[i] / member.beamsection.A))
         
+        #Output
         if (verbose>1):
             #Future- This could use some better formatting
             print "* Outputs"
             print "Nodal results"
             for i in xrange(nn):
-                print "%s: %s %s %s %s %s %s" % (str(i),str(fx[i]),str(fy[i]),str(ft[i]),str(ux[i]),str(uy[i]),str(ut[i]))
+                print "%s: %s %s %s %s %s %s" % (str(i),str(f[i*3]),str(f[i*3+1]),str(f[i*3+2]),str(ux[i]),str(uy[i]),str(ut[i]))
             print "Member results"
             for i in xrange(nm):
                 print "%s: %s %s %s %s %s %s" % (str(i),str(fm[i]),str(t1[i]),str(t2[i]),str(v[i]),str(sigma1[i]),str(sigma2[i]))

@@ -65,6 +65,28 @@ class Fem2d(CoreClass):
                 st+=".*"                    
             st += "]"
             print st
+    
+    def solve_system_gje(self,nn3,f,s,u):
+        nm3=nn3-1
+        for i in xrange(nn3):
+            a = 1 / s[i][i]
+            f[i] = a * f[i]
+            for j in xrange(nn3):
+                s[i][j] = a * s[i][j]
+            ii = i + 1
+            for j in xrange(ii,nn3):
+                b = s[j][i]
+                f[j]=f[j] - b * f[i]
+                for k in xrange(i, nn3):
+                    s[j][k] = s[j][k] - b * s[i][k]
+        u[nn3-1] = f[nn3-1] / s[nn3-1][nn3-1]
+        
+        for i in xrange(nm3-1):
+            m = nn3 - i -1
+            u[m] = f[m]
+            mm = m + 1
+            for j in xrange(mm,nn3):
+                u[m] = u[m] - s[m][j] *u[j]
 
     def analyse(self,verbose=2):
         if (verbose>1):
@@ -214,27 +236,9 @@ class Fem2d(CoreClass):
         
         #Solution of system of equations using Gauss-Jordan elimination
         if (verbose>1):
-            print "* Solving system of equations"        
-        for i in xrange(nn3):
-            a = 1 / s[i][i]
-            f[i] = a * f[i]
-            for j in xrange(nn3):
-                s[i][j] = a * s[i][j]
-            ii = i + 1
-            for j in xrange(ii,nn3):
-                b = s[j][i]
-                f[j]=f[j] - b * f[i]
-                for k in xrange(i, nn3):
-                    s[j][k] = s[j][k] - b * s[i][k]
-        u[nn3-1] = f[nn3-1] / s[nn3-1][nn3-1]
-        
-        for i in xrange(nm3-1):
-            m = nn3 - i -1
-            u[m] = f[m]
-            mm = m + 1
-            for j in xrange(mm,nn3):
-                u[m] = u[m] - s[m][j] *u[j]    
-        
+            print "* Solving system of equations"
+        self.solve_system_gje(nn3,f,s,u)
+     
         if (verbose>1):
             print "* Post-processing"
             

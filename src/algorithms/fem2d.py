@@ -98,21 +98,15 @@ class Fem2d(CoreClass):
         nn=self.structure.nodeCount
         nm=self.structure.elementCount
         nl=self.structure.loadCount
-        nn3=nn*3
-        nm3=nn3-1
+        nn3=self.structure.nodeCount*3
+        nm3=self.structure.nodeCount*3 - 1
         
         # Initialise the initial force and displacement vector per node
         # (Future- This could also done directly on the main force and displacement vectors)
-        #fx=[]
-        #fy=[]
-        #ft=[]
         ux=[]
         uy=[]
         ut=[]
-        for i in xrange(nn):
-        #    fx.append(0.0)
-        #    fy.append(0.0)
-        #    ft.append(0.0)
+        for i in xrange(self.structure.nodeCount):
             ux.append(0.0)
             uy.append(0.0)
             ut.append(0.0)
@@ -121,14 +115,16 @@ class Fem2d(CoreClass):
         f=[]
         u=[]
         s=[[]]
-        for i in xrange(nn3):
+        for i in xrange(self.structure.nodeCount * 3):
             f.append(0.0)
             u.append(0.0)
             s.append([])
-            for j in range(nn3):
+            for j in range(self.structure.nodeCount * 3):
                 s[i].append(0.0)
         
-        # Initialise local stiffness matrix        
+        #Initialise local stiffness matrix
+        #Future- This can be removed if we refactor the construction of the global stiffness
+        #        matrix
         t=[]
         sl=[[]]
         for i in xrange(6):
@@ -140,16 +136,12 @@ class Fem2d(CoreClass):
         # Set the loads on the force vector
         for load in self.structure.l:
             nnr=self.structure.findNode(load.node)
-            #fx[nnr]+=load.X
-            #fy[nnr]+=load.Y
-            #ft[nnr]+=load.T
             f[nnr*3] += load.X
             f[nnr*3+1] += load.Y
             f[nnr*3+2] += load.T
             
         # Construct the global stiffness matrix
-        for i in xrange(nm):
-            member=self.structure.e[i]
+        for member in self.structure.e:
             kk=self.structure.findNode(member.endnode)
             mm=self.structure.findNode(member.startnode)
 
@@ -196,15 +188,6 @@ class Fem2d(CoreClass):
                 for m in xrange(6):
                     mm1 = ns[m]
                     s[kk1][mm1]= s[kk1][mm1]+sl[k][m]
-            
-        #Construction of the global force vector
-        #for i in xrange(nn):
-        #    kx = 3 * i
-        #    ky = 3 * i + 1
-        #    kt = 3 * i + 2
-        #    f[kx] = fx[i]
-        #    f[ky] = fy[i]
-        #    f[kt] = ft[i]
         
         #Calculation of predescribed displacements
         for i in xrange(nn):
@@ -281,9 +264,9 @@ class Fem2d(CoreClass):
             print "* Outputs"
             print "Nodal results"
             for i in xrange(nn):
-                print "%s: %s %s %s %s %s %s" % (str(i),str(f[i*3]),str(f[i*3+1]),str(f[i*3+2]),str(ux[i]),str(uy[i]),str(ut[i]))
+                print "%s: %+.4f %+.4f %+.4f %+.4f %+.4f %+.4f" % (str(i), f[i*3], f[i*3+1] ,f[i*3+2], ux[i], uy[i], ut[i])
             print "Member results"
             for i in xrange(nm):
-                print "%s: %s %s %s %s %s %s" % (str(i),str(fm[i]),str(t1[i]),str(t2[i]),str(v[i]),str(sigma1[i]),str(sigma2[i]))
+                print "%s: %+.2f %+.2f %+.2f %+.2f %+.2f %+.2f" % (str(i), fm[i], t1[i], t2[i], v[i], sigma1[i], sigma2[i])
             
         return True
